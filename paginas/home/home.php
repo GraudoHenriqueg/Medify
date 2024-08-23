@@ -1,5 +1,9 @@
 <?php 
-  include_once '../../componentes/menu/menu.php'
+  include_once '../../componentes/menu/menu.php';
+  include_once '../../backend/produto_venda/relatorioProdutov.php';
+  include_once '../../backend/produto_compra/relatorioProduto.php';
+  include_once '../../backend/relatorio_home/relatorio_home.php';
+
 ?>
 
 <html>
@@ -41,7 +45,6 @@ if($_GET){
 ?>
     <head>
         <title>Usuario | Medify</title>
-            <link rel="stylesheet" href="medicamento.css">
             <link rel="stylesheet" href="../../componentes/menu/menu.css">
     </head>
         <?php
@@ -51,49 +54,12 @@ if($_GET){
             <header> 
                 <h1>Administração | Cadastro de Medicamento</h1>
             </header>
-            <form action="../../backend/medicamento/criarMedicamento.php" method="post">
-                <div class="inputs">
-                   <div class="linha">
-                     <div class="controle">
-                    <input type="text" name="nome" placeholder="Nome do Medicamento">
-                    <select name="controlado">
-                        <option value="">controlado</option>
-                        <option value="300">sim</option>
-                        <option value="301">não</option>
-                    </select>
-                     </div>
-                    <select name="alta vigilancia">
-                         <option value="">alta vigilancia</option>
-                         <option value="300">sim</option>
-                         <option value="301">não</option>
-                    </select>
-                    <select name="ativo">
-                         <option value="">ativo</option>
-                         <option value="300">sim</option>
-                         <option value="301">não</option>
-                    </select>
-                    <label>Valor:</label><input type="text" name="valor">
-                   <div class="controles">
-                   <button type="submit" class="salvar">Salvar</button>
-                   <button type="reset" class="cancelar">Cancelar</button>
-                   <?php
-                       echo('<p>' .$mensagem. '</p>')
-                   ?>
-                   </div>
-                </div>
-                   
-                </div>
-            </form>
             <div class="relatorio">
-                <h1>Relatório</h1>
+                <h1>Relatório Compra</h1>
                 <table>
                     <tr>
-                        <th>Ação</th>
-                        <th>id</th>
-                        <th>quantidade</th>
-                        <th>ordem_de_compra</th>
-                        <th>medicamento</th>
-                        <th>tipo</th>
+                        <th>Medicamento</th>
+                        <th>Quantidade em estoque</th>
                     </tr>
                     <?php
 
@@ -101,20 +67,53 @@ if($_GET){
                     //para iterar entre os itens do array
                     //que é o nosso $relatorio
 
-                    foreach($relatorio as $movimento){
+                    foreach($relatorioCompra as $compra){
                         echo("
                             <tr>
-                                <td><button>Excluir</button></td>
-                                <td>".$movimento['id']."</td>
-                                <td>".$movimento['quantidade']."</td>
-                                <td>".$movimento['ordem_de_compra']."</td>
-                                <td>".$movimento['medicamento']."</td>
-                                <td>".$movimento['tipo']."</td>
+                                <td>".$compra['nome']."</td>
+                                <td>".$compra['quantidade']."</td>
                             </tr>
                         ");
                     }
-
                     ?>
+                    </table>
+                    <table>
+                    <h1>Relatório Venda</h1>
+
+                    <tr>
+                        <th>Medicamento</th>
+                        <th>Quantidade em estoque</th>
+                    </tr>
+
+                    <?php
+                    foreach($relatorioVenda as $venda){
+                        echo("
+                            <tr>
+                                <td>".$venda['nome']."</td>
+                                <td>".$venda['quantidade']."</td>
+                            </tr>
+                        ");
+                    }
+                   ?>
+                </table>
+                <table>
+                    <h1>Relatório Estoque</h1>
+
+                    <tr>
+                        <th>Medicamento</th>
+                        <th>Quantidade em estoque</th>
+                    </tr>
+
+                    <?php
+                    foreach($relatorioHome as $home){
+                        echo("
+                            <tr>
+                                <td>".$home['nome']."</td>
+                                <td>".$home['estoque']."</td>
+                            </tr>
+                        ");
+                    }
+                   ?>
                 </table>
             </div>
         </section>

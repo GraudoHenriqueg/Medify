@@ -46,10 +46,10 @@ if($_GET){
             </header>
             <form action="../../backend/compra/criarCompra.php" method="post">
                 <div class="inputs">
-                  <label for="">Data_solicitação:</label><input type="date" name="data_solicitacao">
-                  <label for="">Data_previsão:</label><input type="date" name="data_previsao">
-                  <label for="">Data_entrega:</label><input type="date" name="data_entrega">
-                  <label for="">Data_pagamento:</label><input type="date" name="data_pagamento">
+                  <label for="">Data_solicitação:</label><input type="date" name="dt_solicitacao">
+                  <label for="">Data_previsão:</label><input type="date" name="dt_previsao">
+                  <label for="">Data_entrega:</label><input type="date" name="dt_entrega">
+                  <label for="">Data_pagamento:</label><input type="date" name="dt_pagamento">
                   <select name="situacao">
                    <option value="">Situação</option>
                    <?php
@@ -107,7 +107,10 @@ if($_GET){
                        echo('<p>' .$mensagem. '</p>')
                    ?>
                    
-                   <label>Quantidade:</label><input type="number">
+                   <label>Quantidade:</label><input type="number" name="quantidade">
+                   <label>Quantidade:</label><input type="number" name="quantidade">
+                   <label>Quantidade:</label><input type="number" name="quantidade">
+                   <label>Quantidade:</label><input type="number" name="quantidade">
                    </div>
                 </div>
                    

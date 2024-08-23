@@ -12,11 +12,13 @@ try{
    //Prepara a query SQL para execução
    $preparo = $conexao->prepare("
         select
-           quantidade,
-           ordem_de_compra,
-           venda,
-           medicamento
-        from tb_movimento
+    med.nome,
+    sum(oci.quantidade) as quantidade
+    from tb_ordem_de_compra oc
+     inner join fk_oc_item oci on oci.ordem_de_compra = oc.id
+     inner join tb_medicamento med on med.id = oci.medicamento
+     where oc.situacao = 2
+     group by med.nome;
 
         
    ");
@@ -24,7 +26,7 @@ try{
    $preparo->execute();
 
    //Coloca o resultado em um array usando fetch_assoc
-   $relatorio = $preparo->fetchALL();
+   $relatorioCompra = $preparo->fetchALL();
 
    //#### Testar se deu certo remover depois ####
    //foreach($relatorio as $linha){

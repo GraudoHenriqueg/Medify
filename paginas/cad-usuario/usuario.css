@@ -1,11 +1,8 @@
-body{
-    background-image:url('../../assets/img/OIP.jpg');
-}
-
 .pagina{
     height: 100vh;
-    width: 85vw;
+    width: 86.3vw;
     position: absolute;
+    background-color: rgb(236, 236, 236);
     top: 0;
     right: 0;
 }

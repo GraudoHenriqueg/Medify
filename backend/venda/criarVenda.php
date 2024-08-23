@@ -15,10 +15,10 @@ try{
     //no arquivo por meio do require_once), para preparar uma instrução
     //sql (banco de dados)
         $stmt = $conexao->prepare("
-        insert into tb_ordem_de_compra(
-           dt_solicitacao, dt_previsao,  dt_entregue, dt_pagamento, situacao
+        insert into tb_venda(
+           dt_venda , metodo_de_pagamento,  dt_pagamento, cliente,tipo, situacao
         ) values (
-           current_timestamp, :dt_previsao, :dt_entregue,:dt_pagamento, :situacao
+           current_timestamp, :metodo_pagamento, :dt_pagamento,:cliente,:tipo, :situacao
         )
      ");
      //Utiliza o método bindParam da classe PreparedStatement disponível
@@ -26,9 +26,10 @@ try{
      //A função bindParam troca um dos parametros da instrução sql pelo
      //valor contido em uma variável. Não esquecer de mudar o tipo no
      //ultimo argumento.
-     $stmt->bindParam(':dt_previsao',$requisicao['dt_previsao'],PDO::PARAM_STR);
-     $stmt->bindParam(':dt_entregue',$requisicao['dt_entregue'],PDO::PARAM_STR);
+     $stmt->bindParam(':metodo_pagamento',$requisicao['metodo_pagamento'],PDO::PARAM_STR);
      $stmt->bindParam(':dt_pagamento',$requisicao['dt_pagamento'],PDO::PARAM_STR);
+     $stmt->bindParam(':cliente',$requisicao['cliente'],PDO::PARAM_STR);
+     $stmt->bindParam(':tipo',$requisicao['tipo'],PDO::PARAM_INT);
      $stmt->bindParam(':situacao',$requisicao['situacao'],PDO::PARAM_INT);
      //Ao final da troca dos parametros, estamos prontos para executar
      //a instrução, por isso utilizamos o método execute() da classe
@@ -40,12 +41,13 @@ try{
      $res = $stmt2->fetchALL();
      $id = $res[0]['id'];
 
-     $stmt3 = $conexao->prepare("insert into tb_oc_item(
-         ordem_de_compra,medicamento,quantidade   
-         ) values(:ordem_de_compra,:medicamento,:quantidade)");
-      $stmt3->bindParam(':ordem_de_compra',$id,PDO::PARAM_INT);
-      $stmt3->bindParam(':medicamento',$valores["medicamento"],PDO::PARAM_INT);
-      $stmt3->bindParam(':quantidade',$valores["quantidade"],PDO::PARAM_INT);
+     $stmt3 = $conexao->prepare("insert into fk_venda_item(
+         venda,medicamento,quantidade   
+         ) values(:venda,:medicamento,:quantidade)");
+      $stmt3->bindParam(':venda',$id,PDO::PARAM_INT);
+      $stmt3->bindParam(':medicamento',$requisicao["medicamento"],PDO::PARAM_INT);
+      $stmt3->bindParam(':quantidade',$requisicao["quantidade"],PDO::PARAM_INT);
+      $stmt3->execute();
 
 //Ao executar, prescisamos verificar se o valor foi de fato
      //inserido no banco de dados, para isso verificamos se o valor do
